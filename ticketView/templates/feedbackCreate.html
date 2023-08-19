@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Close Ticket</h1>
+        </div>
+        <form action="." method="POST">
+            {% csrf_token %}
+            <div class="fieldwrapper">
+                <td> INC Number: {{form.feedbackIncident}}</td>
+            </div>
+            <div class="fieldwrapper">
+                <label for = "{{form.feedbackResult.id_for_label }}"> Did the solution work?</label>
+                {{form.feedbackResult}}
+            </div>
+            <div class="fieldwrapper">
+                <label for = "{{form.feedbackDetail.id_for_label }}"> Additional Notes: </label>
+                {{form.feedbackDetail}}
+            </div>
+            <button type = "submit" class = "btn btn-primary">Close</button>
+        </form>
+        <br/>
+        {% include 'error.html' %}
+    </div>
+    
+{% endblock content %}
+    

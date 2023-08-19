@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load auth_extras %}
+
+  <div class = "container">
+    <center>
+      <div class = "jumbotron">
+        <h1>Welcome</h1>
+      </div>
+      <p>This site will allow you to check your ticket for a known issue. Start off by clicking the "Scan Tickets" button</p>
+      <p></p>
+      {% if request.user|no_group:"end_users" %}
+        <p>Since you are an engineer, you can also search for any potential resolutions for your open tickets</p>
+        <p></p>
+      {% endif %}
+      <p>Author: Jack Wilson-Griffith</p>
+    </center>
+  </div>  
+
+{% endblock %}
+

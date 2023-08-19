@@ -1,0 +1,4 @@
+<option value="">--------</option>
+{% for area in incidentAreas %}
+    <option value="{{ area.pk }}">{{ area.areaName }}</option>
+{% endfor %}

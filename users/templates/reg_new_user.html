@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="jumbotron">
+        <h1>Register</h1>
+    </div>
+    <center>
+        <form action='.' method='POST'>{% csrf_token %}
+            <div class="fieldWrapper">
+                <label for="{{ form.username.id_for_label }}">Username:</label>
+                {{ form.username }}
+            </div>
+            <div class="fieldWrapper">
+                <label for="{{ form.password1.id_for_label }}">Password:</label>
+                {{ form.password1 }}
+            </div>
+            <div class="fieldWrapper">
+                <label for="{{ form.password2.id_for_label }}">Confirm Password:</label>
+                {{ form.password2 }}
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+        <br/>
+        {% include 'error.html'%}
+    </center>
+</div>
+{% endblock %}

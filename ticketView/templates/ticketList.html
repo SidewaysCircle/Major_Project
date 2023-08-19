@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<table class = "table table-hover">
+    <thead>
+        <tr>
+            <th>Incident Number</th>
+            <th>Summary</th>
+            <th>Suggestion</th>
+            <th></th>
+        </tr>
+    </thead> 
+
+    <tbody>
+
+        {% for incident in incidentList %}
+        
+            {% if incident.incidentShow %}
+            
+            <tr>
+                <td> {{ incident.incidentNumber }}</td>
+                <td> {{ incident.incidentResolutionPath.incidentType }} | {{ incident.incidentResolutionPath.incidentDetail }}</td>
+                <td> {{ incident.incidentResolutionPath.incidentSuggestion }}</td>
+
+                <td>
+                    <a href="{%url 'incidentView' incident.pk %}" class = "btn btn-warning btn-sm" role="button" aria-pressed="true" >Details</a>
+                    <a href="{%url 'ticketClose' incident.pk%}" class = "btn btn-danger btn-sm" role="button" aria-pressed="true">Close</a>
+                </td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+    </tbody>
+
+
+</table>
+
+{% endblock %}

@@ -1,0 +1,53 @@
+<html lang="en">
+<head>
+  {% load auth_extras %}
+<!--  could not get " {% load static %} " to work, alternative solution-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <title>{% block title %}{% endblock %}</title>
+</head>
+    <body>
+    {% if user.is_authenticated %}
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <a class="navbar-brand" href="/">Ticket Scanner</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="nav navbar-nav me-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="/ticketScan/">Scan Ticket</a>
+              </li>
+              {% if request.user|no_group:"end_users" %}
+                <li class="nav-item">
+                  <a class="nav-link" href="/ticketView/">View Tickets</a>
+                </li>
+              {% endif %}
+              {% if user.is_superuser %}
+                <li class="nav-item">
+                  <a class="nav-link" href="/feedback/">Feedback</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/admin/">Admin</a>
+                </li>
+              {% endif %}
+            </ul>
+            <ul class="nav navbar-nav ml-auto">
+              <span class="navbar-text">
+                  Logged in as: {{user.username}}
+              </span>
+              <form class="form-inline my-2 my-lg-0 ml-2" action="/access/logout/" method='POST'>{% csrf_token %}
+                  <button class="btn btn-info my-2 my-sm-2" type="submit">Logout</button>
+              </form>
+            </ul>
+          </div>
+        </nav>
+    {% endif %}
+    {% block content %}
+    {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,4 @@
+<option value="">--------</option>
+{% for error in incidentErrors %}
+    <option value="{{ error.pk }}">{{ error.errorDetail }}</option>
+{% endfor %}

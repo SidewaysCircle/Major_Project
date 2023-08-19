@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="container">
+  <div class="jumbotron">
+    <h1>Scanning a new ticket</h1>
+  </div>
+  <form method="post" id="findResolutionForm" data-areas-url="{% url 'ajax_load_areas' %}" data-errors-url="{% url 'ajax_load_errors' %}" novalidate>
+    {% csrf_token %}
+    <div class="fieldwrapper">
+      <label for = "{{form2.incidentNumber.id_for_label }}"> Incident Number: </label>
+        {{form2.incidentNumber}}
+    </div>
+
+    <div class="fieldwrapper">
+      <label for = "{{form.incidentType.id_for_label }}"> Incident Type: </label>
+      <table>
+        {{form.incidentType}} 
+        {% if form.incidentType.errors %}
+            {% for error in form.incidentType.errors %}
+              <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+              </div>
+            {% endfor %}
+          {% for error in form.incidentType.non_field_errors %}
+            <div class="alert alert-danger">
+              <strong>{{ error|escape }}</strong>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </table>
+    </div>
+
+    <div class="fieldwrapper">
+      <label for = "{{form.incidentArea.id_for_label }}"> Area Affected: </label>
+      <table>
+        {{form.incidentArea}} 
+        {% if form.incidentArea.errors %}
+          {% for error in form.incidentArea.errors %}
+            <div class="alert alert-danger">
+              <strong>{{ error|escape }}</strong>
+            </div>
+          {% endfor %}
+          {% for error in form.incidentArea.non_field_errors %}
+            <div class="alert alert-danger">
+              <strong>{{ error|escape }}</strong>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </table>
+    </div>
+
+    <div class="fieldwrapper">
+      <label for = "{{form.incidentDetail.id_for_label }}"> Error Message: </label>
+      <table>
+        {{form.incidentDetail}} 
+        {% if form.incidentDetail.errors %}
+            {% for error in form.incidentDetail.errors %}
+              <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+              </div>
+            {% endfor %}
+          {% for error in form.incidentDetail.non_field_errors %}
+            <div class="alert alert-danger">
+              <strong>{{ error|escape }}</strong>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </table>
+    </div>
+
+  
+
+    <div class="fieldwrapper">
+      <label for = "{{form2.incidentAddDetail.id_for_label }}"> Additional Details: </label>
+      {{form2.incidentAddDetail}}
+    </div>
+
+    <button type = "submit" class = "btn btn-primary">Save</button>
+
+  </form>
+
+  {% if form2.errors %}
+    {% for field in form2 %}
+      {% for error in field.errors %}
+          <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+          </div>
+        {% endfor %}
+      {% endfor %}
+    {% for error in form2.non_field_errors %}
+      <div class="alert alert-danger">
+        <strong>{{ error|escape }}</strong>
+      </div>
+    {% endfor %}
+  {% endif %}
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+  $("#id_incidentType").change(function () {
+    var url = $("#findResolutionForm").attr("data-areas-url");  // get the url of the `load_areas` view
+    var platformId = $(this).val();  // get the selected platform ID from the HTML input
+
+    $.ajax({                       // initialize an AJAX request
+      url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-areas/)
+      data: {
+        'incidentType': platformId       // add the platform ID to the GET parameters
+      },
+        
+      success: function (data) {   // `data` is the return of the `load_areas` view function
+        $("#id_incidentArea").html(data); // replace the contents of the areas input with the data that came from the server
+      }
+    });
+  });
+
+  $("#id_incidentArea").change(function () {
+    var url = $("#findResolutionForm").attr("data-errors-url");  // get the url of the `load_errors` view
+    var areaId = $(this).val();  // get the selected area ID from the HTML input
+    
+    $.ajax({                       // initialize an AJAX request
+      url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-errors/)
+      data: {
+        'incidentArea': areaId       // add the area ID to the GET parameters
+      },
+      success: function (data) {   // `data` is the return of the `load_errors` view function
+        $("#id_incidentDetail").html(data); // replace the contents of the city input with the data that came from the server
+      }
+    });
+
+  });
+
+  </script>
+</script>
+
+{% endblock content %}

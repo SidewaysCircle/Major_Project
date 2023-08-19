@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="container">
+    <div class="jumbotron">
+        <h1>Viewing ticket logic for: {{ object.feedbackIncident.incidentNumber }}</h1>
+    </div>
+    
+    <form action="." method="GET">
+        {% csrf_token %}
+        <div class="fieldwrapper">
+            <p></p>
+            <h2>Suggested fix:              {{ object.feedbackIncident.incidentResolutionPath.incidentSuggestion }}</h2>
+            <p></p>
+            <h2>Reasoning:                  {{ object.feedbackIncident.incidentResolutionPath.incidentJustification }}</h2>
+            <p></p>
+            <h2>- - - - - - - - - - - - - - - -</h2>
+            <p></p>
+            {% if object.feedbackResult == True %}
+                <h2>Result: Solution Worked</h2>
+            {% else %}
+                <h2>Result: Solution unsuccessful</h2>
+            {%endif%}
+            <p></p>
+            <h2>Details:                    {{ object.feedbackDetail }}</h2>
+            <p></p>
+        </div>
+        <div class="fieldwrapper">
+            <button type = "button" class = "btn btn-primary" onclick="history.back()">OK</button>
+        </div>
+    </form>
+</div>
+    
+{% endblock content %}
+    
+

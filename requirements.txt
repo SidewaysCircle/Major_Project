@@ -1,0 +1,5 @@
+asgiref==3.7.2
+Django==4.2.2
+django-filter==23.2
+django-multi-form-view==2.0.1
+sqlparse==0.4.4

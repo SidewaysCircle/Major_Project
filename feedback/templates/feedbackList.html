@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<table class = "table table-hover">
+    <thead>
+        <tr>
+            <th>Incident Number</th>
+            <th>Summary</th>
+            <th>Result</th>
+            <th></th>
+        </tr>
+    </thead> 
+
+    <tbody>
+
+        {% for feedback in feedbackList %}
+
+            {% if feedback.feedbackShow %}
+
+                {% if feedback.feedbackResult %} 
+                
+                    <tr>
+                        <td> {{ feedback.feedbackIncident.incidentNumber }}</td>
+                        <td> {{ feedback.feedbackIncident.incidentResolutionPath.incidentType }} | {{ feedback.feedbackIncident.incidentResolutionPath.incidentDetail }}</td>                
+                        <td> &#9989</td>
+                        
+                        </td>
+                        <td>
+                            <a href="{%url 'feedbackView' feedback.pk %}" class = "btn btn-warning btn-sm" role="button" aria-pressed="true" >Details</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td> {{ feedback.feedbackIncident.incidentNumber }}</td>
+                        <td> {{ feedback.feedbackIncident.incidentResolutionPath.incidentType }} | {{ feedback.feedbackIncident.incidentResolutionPath.incidentDetail }}</td>                
+                        <td> &#10060</td>
+                        
+                        </td>
+                        <td>
+                            <a href="{%url 'feedbackView' feedback.pk %}" class = "btn btn-warning btn-sm" role="button" aria-pressed="true" >Details</a>
+                        </td>
+                    </tr>
+                {% endif %}
+
+            {% endif %}
+
+        {% endfor %}
+    </tbody>
+
+
+</table>
+
+{% endblock %}
